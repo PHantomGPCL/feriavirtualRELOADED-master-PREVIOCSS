@@ -1,0 +1,275 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maipo Grande Tu Feria Virtual!</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/flexboxgrid.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/normalize.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/seguimiento.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/cssboostrapside.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'Static shop/css/styles.css' %}">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+    <script src="https://kit.fontawesome.com/b7f0f5763e.js" crossorigin="anonymous"></script>
+
+    {% load pwa %}
+
+    {% progressive_web_app_meta %}
+    <!-- CSS only -->
+
+  
+</head>
+<body class="body" id="body">
+<!-- Image and text -->
+
+
+
+
+<div class="wrapper" >
+    <!-- Sidebar  -->
+    <nav id="sidebar" style="background: #00b52e">
+        <div class="sidebar-header"  style="background: #fcfcfc">
+          <a  href="http://127.0.0.1:8000/"><img src="{% static 'img/maipologo.png' %}"></a>
+        </div>
+
+        <ul class="list-unstyled CTAs">
+            {%if request.user.is_authenticated %}
+            <p>@{{ user.get_username }}</p>
+            <div style="margin:10px">
+              <img style="width: 300px; height: 225px; object-fit: cover; "class="img-perfil img-fluid img-thumbnail mt-4 mb-2" src="{{ request.user.imagen.url }}" alt="Generic placeholder image">
+            </div>
+
+            {% endif %}  
+
+            <li class="nav-op active">
+              {% if request.user.rol == "1"%}  <!--Productor -->
+              <a href="{% url 'solicitudesProductor' %}" class="download" style="color: #000;">Solicitudes Productos</a>
+              <a href="{% url 'seguimientoLista' %}" class="download" style="color: #000;">Seguimiento productos</a>
+              <a href="{% url 'ingresar-productos'  %}" class="download" style="color: #000;">Ingresar Productos</a>
+              <a href="{% url 'mis-productos' %}" class="download" style="color: #000;">Mis Productos</a>
+              {% endif %}  
+
+              {% if request.user.rol == "2"  %}  <!--Cliente externo -->
+
+              <a href="{% url 'seguimientoLista' %}" class="download" style="color: #000;">Seguimiento</a>
+              <a href="{% url 'solicitudClientes' %}" class="download" style="color: #000;">Ingresar solicitud venta</a>
+              <a href="{% url 'solicitudesClienteExterno' %}" class="download" style="color: #000;">Solicitudes</a>
+
+              {% endif %}  
+
+
+              {% if request.user.rol == "3"  %}  <!--Cliente interno -->
+
+              <a href="{% url 'seguimientoLista' %}" class="download" style="color: #000;">Seguimiento</a>
+              <a href="{% url 'solicitudClientes' %}" class="download" style="color: #000;">Solicitud</a>
+              <a href="{% url 'solicitudesClienteExterno' %}" class="download" style="color: #000;">Solicitudes</a>
+              <a href="{% url 'Ventalocal' %}" class="download" style="color: #000;">Venta local</a>
+              {% endif %}  
+
+              {% if request.user.rol == "4"  %}  <!--Transportista -->
+               <a href="{% url 'registrarTransporte' %}" class="download" style="color: #000;">Registrar Transporte</a>
+               <a href="{% url 'solicitudesTransportista' %}" class="download" style="color: #000;">Envios activos</a>
+               <a href="{% url 'transportesRegistrados' %}"class="download" style="color: #000;">Transportes registrados</a>
+              {% endif %}  
+
+              {% if request.user.rol == "5"  %}  <!--Consultor -->
+               <a href="{% url 'seguimientoLista' %}"  class="download" style="color: #000;">Seguimiento</a>
+              {% endif %}  
+
+
+              {% if request.user.rol == "6"%}  <!--admin -->
+              <a href="http://127.0.0.1:8000/admin/"  class="download" style="color: #000;">Gestion Base de Datos</a>
+              <a href="{% url 'gestionContratos' %}" class="download" style="color: #000;">Gestion de contratos</a>
+              <a href="{% url 'register' %}" class="download" style="color: #000;">Registrar Usuario</a>
+              <a href="{% url 'Solicitud' %}" class="download" style="color: #000;">Solicitud</a>
+              <a href="{% url 'Solicitudes' %}" class="download" style="color: #000;">Solicitudes</a>
+              <!-- <a href="#" >Productores</a> -->
+              {% endif %}  <!--admin -->
+              
+              {% if request.user.rol == "7"  %}  <!--Revisor de calidad -->
+              <a href="{% url 'solicitudesRevisor' %}" class="download" style="color: #000;">Revisiones pendientes</a>
+              {% endif %}  
+
+
+
+
+  
+             <!-- <ul class="collapse list-unstyled" id="homeSubmenu"></ul>*/ -->
+          </li>            
+        </ul>
+    
+      
+
+                
+
+        {% if user.is_authenticated %}
+        <ul class="list-unstyled CTAs">
+            <li>
+             <!-- <a href="{% url 'transportesRegistrados' %}" class="download" style="color: #000;">Transportes</a>
+                <a href="{% url 'mis-productos' %}" class="download" style="color: #000;">Productos</a> -->
+                <a href="{% url 'logout' %}" class="download" style="color: #000;">Cerrar Sesion</a>
+            </li>
+        </ul>
+        {% else %}
+        <ul class="list-unstyled CTAs">
+          <li>
+            <a href="{% url 'login' %}" class="download" style="color: #000;">Ingresar</a>
+            <a href="{% url 'register-interno' %}" class="download" style="color: #000;">Registrarse</a>
+          </li>
+      </ul>
+
+        {% endif%}
+    </nav>
+
+
+
+
+    <!-- Page Content  -->
+
+
+    <div id="content" style="background-image: url(https://img.freepik.com/vector-premium/ilustracion-mercado-granja-alimentos-organicos-caracter-vendedor-granjero-plano-dibujos-animados-vendiendo-frutas-verduras-cosecha-fresca-puesto-mercado-callejero-gente-feria-calle-local-aislado-blanco_213110-367.jpg?w=2000);">
+
+
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light navbar-fixed-top">
+  <button type="button" id="sidebarCollapse" class="btn btn-light">
+    <i class="fas fa-align-left"></i>
+    <span></span>
+  </button>
+  
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+    <span class="fas fa-align-left"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="collapsibleNavbar">
+    <ul class="navbar-nav">
+      <li id="nav-none"  class="nav-item">
+
+          {% if request.user.rol == "1"%}  <!--Productor -->
+
+          <a class="nav-link" href="{% url 'solicitudesProductor' %}" >Seguimiento Productos</a>
+          <a class="nav-link" href="{% url 'ingresar-productos'  %}">Ingresar Productos</a>
+          <a class="nav-link" href="{% url 'mis-productos' %}" >Mis Productos</a>
+
+          {% endif %}  
+
+          {% if request.user.rol == "2"  %}  <!--Cliente externo -->
+
+          <a class="nav-link" href="{% url 'seguimientoLista' %}" >Seguimiento</a>
+          <a class="nav-link" href="{% url 'Solicitud' %}">Solicitud</a>
+          <a class="nav-link" href="{% url 'Solicitudes' %}" >Solicitudes</a>
+
+          {% endif %}  
+
+
+          {% if request.user.rol == "3"  %}  <!--Cliente interno -->
+
+          <a class="nav-link" href="{% url 'seguimientoLista' %}" >Seguimiento</a>
+          <a class="nav-link" href="{% url 'Solicitud' %}">Solicitud</a>
+          <a class="nav-link" href="{% url 'Solicitudes' %}" >Solicitudes</a>
+
+          {% endif %}  
+
+          {% if request.user.rol == "4"  %}  <!--Transportista -->
+          <a class="nav-link" href="{% url 'registrarTransporte' %}" >Registrar Transporte</a>
+          <a class="nav-link" href="{% url 'solicitudesTransportista' %}" >Envios activos</a>
+          {% endif %}  
+
+          {% if request.user.rol == "5"  %}  <!--Consultor -->
+          <a class="nav-link" href="{% url 'seguimientoLista' %}" >Seguimiento</a>
+          {% endif %}  
+
+
+          {% if request.user.rol == "6"%}  <!--admin -->
+          <a class="nav-link" href="http://127.0.0.1:8000/admin/" >Sitio Administracion</a>
+          <a class="nav-link" href="{% url 'gestionContratos' %}" > Gestion de contratos</a>
+          <a class="nav-link" href="{% url 'register' %}" > Registrar Usuario</a>
+          <a class="nav-link" href="{% url 'Solicitud' %}">Solicitud</a>
+          <a class="nav-link" href="{% url 'Solicitudes' %}" >Solicitudes</a>
+          <a class="nav-link" href="#" >Productores</a>
+
+          {% endif %}  <!--admin -->
+          
+          {% if request.user.rol == "7"  %}  <!--Revisor de calidad -->
+          <a class="nav-link" href="{% url 'solicitudesRevisor' %}" >Revisiones pendientes</a>
+          {% endif %}  
+
+
+
+
+
+         <!-- <ul class="collapse list-unstyled" id="homeSubmenu"></ul>*/ -->
+      </li>     
+    </ul>
+  </div>  
+</nav>
+
+
+
+    <!-- /#page-content-wrapper -->
+    {% if messages %}
+      {% for message in messages %}
+      <div class="notification {{ message.tags}}">
+        {{ message }}
+      </div>
+      {% endfor %}
+	  {% endif %}
+    {% block content %}
+    {% endblock %}
+
+  </div>
+
+  <!-- /#wrapper -->
+
+  
+</div>
+
+<div class="container my-5" style="padding-left: 0; padding-right:0; width:100%;"></div>
+  <footer class="text-center text-lg-start text-dark" style="background-color: #ECEFF1; padding-left: 0; padding-right:0; width:100%"> 
+    <section class="" style="padding-left: 0; padding-right:0; width:100%;">
+      <div class="container text-center text-md-start mt-5">
+        <!-- Grid row -->
+        <div class="row mt-3">
+          <!-- Grid column -->
+          <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+            <!-- Content -->
+          </section>
+          <!-- Section: Links  -->
+      
+          <!-- Copyright -->
+          <!-- <div
+               class="text-center p-3"
+               style="background-color: rgba(0, 0, 0, 0.2)"
+               > -->
+            © 2022 Copyright:
+            <a class="text-dark" href="#"
+               >Feria Virtual Maipo Grande EQUIPO 2 REMASTERIZADO</a
+              >
+          </div>
+            
+  </footer>
+</div>
+
+<script src="{% static 'assets/extra-libs/multicheck/datatable-checkbox-init.js' %}"></script>
+<script src="{% static 'assets/extra-libs/multicheck/jquery.multicheck.js' %}"></script>
+<script src="{% static 'assets/extra-libs/DataTables/datatables.min.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script type="application/javascript" src="{% static 'js/jsboostrapside.js' %}"></script>
+<script type="application/javascript" src="{% static 'js/status.js' %}"></script>
+<script type="application/javascript" src="{% static 'js/popup.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+<script type="application/javascript" src="{% static 'js/script.js' %}" ></script>
+
+</body>
+</html>
+
+
+

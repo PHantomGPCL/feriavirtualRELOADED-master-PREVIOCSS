@@ -1,0 +1,23 @@
+{% extends 'baseboostrap.html' %}
+{% load humanize %}
+{% block content %}
+
+<body>
+    <h2>Modificación Productos</h2>
+
+    <form action="" method = "POST">
+      <div class="form-group row">
+          <label for="cantidad">Cantidad</label>
+          <input type="text" class="form-control" name="cantidad" id="cantidad" value="{{p.cantidad}}">
+      </div>
+      <div class="form-group row">
+          <label for="precio">Precio</label>
+          <input type="text" class="form-control" name="precio" id="precio" value="{{p.precio}}">
+      </div>
+      <button type="btnAdd" class="btn btn-primary">Modificar</button>
+      <a href="{% url 'mis-productos' %}" class="btn btn-primary">Cancelar</a>
+    </form>
+</body>
+</body>
+
+{% endblock %}
